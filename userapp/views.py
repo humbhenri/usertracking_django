@@ -1,6 +1,12 @@
 from django.shortcuts import render, HttpResponseRedirect
 from userapp.models import User
 from django.views import generic
+from django.forms import ModelForm
+
+class UserForm(ModelForm):
+	class Meta:
+		model = User
+		fields = ['first_name', 'last_name', 'email', 'birthday']
 
 class IndexView(generic.ListView):
     template_name = 'userapp/index.html'
@@ -10,8 +16,13 @@ class IndexView(generic.ListView):
     	return User.objects.all()
 
 def new(request):
-	return render(request, 'userapp/new.html', {})
+	form = UserForm()
+	return render(request, 'userapp/new.html', { 'form': form })
 
 def add_new_user(request):
-	user = User()
-	return HttpResponseRedirect('index.html')
+	form = UserForm(request.POST)
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect('index.html')
+	else:
+		return render(request, 'userapp/new.html', { 'form': form })
