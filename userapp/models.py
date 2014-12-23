@@ -6,3 +6,6 @@ class User(models.Model):
 	last_name = models.CharField(max_length=100)
 	email = models.EmailField(max_length=100)
 	birthday = models.DateTimeField()
+
+	def get_absolute_url(self):
+		return '/userapp'

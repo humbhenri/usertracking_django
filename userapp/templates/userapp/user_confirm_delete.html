@@ -1,0 +1,6 @@
+<h1>Delete This?</h1>
+{{ object.first_name }}
+<form action="." method="post">{% csrf_token %}
+    <input type="submit" value="Delete" />
+    <a href="/userapp">Cancel</a>
+</form>
